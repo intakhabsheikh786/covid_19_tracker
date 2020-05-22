@@ -5,3 +5,4 @@ export const colors = {
     button_primary: '#e61c47',
     button_secondary: '#0053d9'
 }
+
