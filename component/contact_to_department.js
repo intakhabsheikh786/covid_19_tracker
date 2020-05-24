@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { CustomButton } from '../common/buttons';
 import { colors } from '../styles/style';
+import DropDown from '../common/dropdown';
+import { country_list as DATA } from '../common/data';
 
 const Upper = () => {
     return (
@@ -15,7 +17,7 @@ const Upper = () => {
                 }}>Covid-19</Text>
             </View>
             <View>
-                <Text>Dropdown</Text>
+                <DropDown data={DATA} selected_item={"Choose country"} />
             </View>
         </View>
     );
