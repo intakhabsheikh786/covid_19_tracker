@@ -17,7 +17,6 @@ export const getCurrentGlobalData = async () => {
 };
 
 export const getSpecifiedDateGlobalData = async (from, to) => {
-  console.log(from, to);
   try {
     let response = await fetch(
       `https://api.covid19api.com/world?from=${from}&to=${to}`

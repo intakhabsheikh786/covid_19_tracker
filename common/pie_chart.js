@@ -10,9 +10,9 @@ const chartConfig = {
   backgroundGradientTo: "#08130D",
   backgroundGradientToOpacity: 0.5,
   color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-  strokeWidth: 2, // optional, default 3
+  strokeWidth: 2,
   barPercentage: 0.5,
-  useShadowColorFromDataset: false, // optional
+  useShadowColorFromDataset: false,
 };
 
 const names = ["Total Confirmed", "Total Recovered", "Total Death"];
@@ -40,12 +40,6 @@ export default class PieChartComponent extends Component {
       });
     });
     if (TotalConfirmed !== undefined) this.setState({ data, loading: false });
-
-    // const array_of_data = [TotalConfirmed, TotalDeaths, TotalRecovered];
-    // data.forEach((item, index) => {
-    //   item.cases = array_of_data[index];
-    // });
-    // console.log(data);
   }
   render() {
     if (this.state.loading) return <Loading />;
