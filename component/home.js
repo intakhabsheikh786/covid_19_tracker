@@ -1,12 +1,15 @@
 import React from "react";
-import { View, StyleSheet, StatusBar } from "react-native";
+import { View, Text, StyleSheet, StatusBar } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+
 import Header from "./header";
 import CheckUp from "./check_up";
+import SelfAssesment from "./self_assesment/self_assesment";
 import ContactToDepartment from "./contact_to_department";
 import PreventionView from "./prevention_view";
 import { colors } from "../styles/style";
 
-const HomeScreen = () => {
+const TempHome = ({ navigation, drawer_navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar
@@ -16,14 +19,36 @@ const HomeScreen = () => {
         hidden={false}
       ></StatusBar>
       <View style={styles.upper}>
-        <Header />
+        <Header drawer_navigation={drawer_navigation} />
         <ContactToDepartment />
       </View>
       <View style={styles.lower}>
         <PreventionView />
-        <CheckUp />
+        <CheckUp navigation={navigation} />
       </View>
     </View>
+  );
+};
+
+const Stack = createStackNavigator();
+
+const HomeScreen = ({ drawer_navigation }) => {
+  const TempHomeComponent = (props) => (
+    <TempHome {...props} drawer_navigation={drawer_navigation} />
+  );
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="TempHome"
+        component={TempHomeComponent}
+      />
+      <Stack.Screen
+        options={{ title: "Self Assesment" }}
+        name="SelfAssesment"
+        component={SelfAssesment}
+      />
+    </Stack.Navigator>
   );
 };
 

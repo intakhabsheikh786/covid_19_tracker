@@ -3,6 +3,7 @@ import { View, Dimensions } from "react-native";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./component/home";
 import NewsScreen from "./component/news";
@@ -49,20 +50,34 @@ const getIconView = (route, focused) => {
   else if (name === "Info") return getView(focused, "md-information-circle");
 };
 
+const StactNavigator = ({ navigation }) => {
+  const HomeComponent = (props) => (
+    <HomeScreen {...props} drawer_navigation={navigation} />
+  );
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused }) => getIconView(route, focused),
+      })}
+      tabBarOptions={{ showLabel: false }}
+    >
+      <Tab.Screen name="Home" component={HomeComponent} />
+      <Tab.Screen name="Statistic" component={StatisticScreen} />
+      <Tab.Screen name="News" component={NewsScreen} />
+      <Tab.Screen name="Info" component={InfoScreen} />
+    </Tab.Navigator>
+  );
+};
+
+const Drawer = createDrawerNavigator();
+
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused }) => getIconView(route, focused),
-        })}
-        tabBarOptions={{ showLabel: false }}
-      >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Statistic" component={StatisticScreen} />
-        <Tab.Screen name="News" component={NewsScreen} />
-        <Tab.Screen name="Info" component={InfoScreen} />
-      </Tab.Navigator>
+      <Drawer.Navigator initialRouteName="StackNavigator">
+        <Drawer.Screen name="StackNavigator" component={StactNavigator} />
+        <Drawer.Screen name="Info" component={InfoScreen} />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 }

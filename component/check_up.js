@@ -9,9 +9,12 @@ import {
 } from "react-native";
 import { colors } from "../styles/style";
 
-const CheckUp = () => {
+const CheckUp = ({ navigation }) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("SelfAssesment")}
+      style={styles.container}
+    >
       <View id="check_up_view" style={styles.check_up_view}>
         <View id="image_view" style={{ flex: 1 }}>
           <Image
