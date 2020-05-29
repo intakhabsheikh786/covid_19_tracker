@@ -14,7 +14,7 @@ const TempHome = ({ navigation, drawer_navigation }) => {
     <View style={styles.container}>
       <StatusBar
         barStyle="dark-content"
-        backgroundColor="#152a73"
+        backgroundColor="#adadaa"
         translucent={true}
         hidden={false}
       ></StatusBar>

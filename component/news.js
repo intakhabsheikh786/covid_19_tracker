@@ -16,7 +16,7 @@ const not_available_image = `https://dummyimage.com/200x300&text=Not Available`;
 const not_available_msg = "Something is wrong";
 import moment from "moment";
 
-function Article({ article }) {
+const Article = ({ article }) => {
   let { title, urlToImage, publishedAt, author, url } = article;
 
   return (
@@ -48,30 +48,48 @@ function Article({ article }) {
       </View>
     </TouchableOpacity>
   );
-}
+};
 
 class NewsScreen extends Component {
   state = {
-    articles: DATA.articles.slice(0, 5),
+    articles: "",
     loading: false,
     refreshing: false,
     to: 5,
   };
 
+  getNews = async () => {
+    try {
+      const response = await fetch(
+        "https://newsapi.org/v2/top-headlines?q=coronavirus&country=in&language=en&apiKey=c98d6da6d5bf489d83cda829cc7b0594"
+      );
+      return await response.json();
+    } catch (error) {
+      throw new Error("Some thing is wrong");
+    }
+  };
+
+  async componentDidMount() {
+    this.setState({ loading: true });
+    const news = await this.getNews();
+    this.setState({ articles: news.articles.slice(0, 5) });
+    this.setState({ loading: false });
+  }
+
   handleLoadMore = (to) => {
     this.setState({ loading: true });
     let more_aricles = DATA.articles.slice(to, to + 5);
     let articles = this.state.articles.concat(more_aricles);
-    console.log(articles);
     this.setState({ to: to + 5, articles, loading: false });
   };
 
   render() {
     const { loading, articles, to } = this.state;
+    if (loading) return <Loading />;
     return (
       <View style={styles.container}>
         <View style={styles.upper}>
-          <Header />
+          <Header drawer_navigation={this.props.drawer_navigation} />
           <Text style={styles.upper_view_text_1}>News</Text>
         </View>
         <View style={styles.lower}>
@@ -83,7 +101,6 @@ class NewsScreen extends Component {
             onEndReachedThreshold={10}
             onEndReached={() => this.handleLoadMore(to)}
           />
-          {}
         </View>
       </View>
     );
@@ -99,7 +116,7 @@ const styles = StyleSheet.create({
   upper: {
     flex: 1,
     backgroundColor: colors.primary,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     paddingVertical: 15,
   },
   upper_view_text_1: {

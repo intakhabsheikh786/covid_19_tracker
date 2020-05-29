@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, StyleSheet } from "react-native";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -9,6 +9,7 @@ import HomeScreen from "./component/home";
 import NewsScreen from "./component/news";
 import StatisticScreen from "./component//statistic/statistic";
 import InfoScreen from "./component/info";
+import CustomDrawerContent from "./component/custom_drawer_content";
 import { colors } from "./styles/style";
 
 const Tab = createBottomTabNavigator();
@@ -42,7 +43,7 @@ const getView = (focused, name) => (
   />
 );
 
-const getIconView = (route, focused) => {
+const getViewWithIcon = (route, focused) => {
   let { name } = route;
   if (name === "Home") return getView(focused, "md-home");
   else if (name === "Statistic") return getView(focused, "md-stats");
@@ -54,16 +55,19 @@ const StactNavigator = ({ navigation }) => {
   const HomeComponent = (props) => (
     <HomeScreen {...props} drawer_navigation={navigation} />
   );
+  const NewsComponent = (props) => (
+    <NewsScreen {...props} drawer_navigation={navigation} />
+  );
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused }) => getIconView(route, focused),
+        tabBarIcon: ({ focused }) => getViewWithIcon(route, focused),
       })}
       tabBarOptions={{ showLabel: false }}
     >
       <Tab.Screen name="Home" component={HomeComponent} />
       <Tab.Screen name="Statistic" component={StatisticScreen} />
-      <Tab.Screen name="News" component={NewsScreen} />
+      <Tab.Screen name="News" component={NewsComponent} />
       <Tab.Screen name="Info" component={InfoScreen} />
     </Tab.Navigator>
   );
@@ -74,9 +78,17 @@ const Drawer = createDrawerNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="StackNavigator">
-        <Drawer.Screen name="StackNavigator" component={StactNavigator} />
-        <Drawer.Screen name="Info" component={InfoScreen} />
+      <Drawer.Navigator
+        initialRouteName="StackNavigator"
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+      >
+        <Drawer.Screen
+          options={{
+            drawerLabel: "Home",
+          }}
+          name="StackNavigator"
+          component={StactNavigator}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

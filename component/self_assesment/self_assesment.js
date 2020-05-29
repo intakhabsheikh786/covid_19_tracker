@@ -133,7 +133,7 @@ export default class SelfAssesment extends React.Component {
     });
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     question_number = 0;
   }
   render() {

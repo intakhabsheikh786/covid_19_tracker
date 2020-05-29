@@ -8,7 +8,6 @@ const Bar = ({ width, height }) => (
 class Header extends Component {
   render() {
     const { drawer_navigation } = this.props;
-    console.log(this.props);
     return (
       <View style={styles.container}>
         <TouchableOpacity
