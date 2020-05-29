@@ -1,8 +1,9 @@
-import React from "react";
-import { View, StyleSheet, Text, Linking } from "react-native";
-import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
+import React, { Component } from "react";
+import { View, StyleSheet, Text, Linking, ScrollView } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import Header from "./header";
 import { colors } from "../styles/style";
+import Loading from "../common/loading_screen";
 
 const AboutView = ({ header, content, url }) => {
   return (
@@ -26,7 +27,7 @@ const AboutView = ({ header, content, url }) => {
           onPress={() => Linking.openURL(url)}
           style={{ color: "#4e5450", letterSpacing: 0.7, fontSize: 20 }}
         >
-          {`${content} visit`}
+          {`${content} click to visit`}
         </Text>
       </View>
     </View>
@@ -48,49 +49,76 @@ const abouts = [
   {
     about: "Source code",
     content: "You can download whole source code from Github",
-    url: "https://covid-19-apis.postman.com/",
+    url: "https://github.com/intakhabsheikh786/covid_19_tracker",
+  },
+  {
+    about: "Future scope",
+    content: "1. Add phone for other countries \n2. Self assesment algorithm",
+    url: "https://github.com/intakhabsheikh786/covid_19_tracker",
+  },
+  {
+    about: "Bug",
+    content:
+      "1. After visiting self assement then changing screen to home does not work \n2. Pie chart does not load properly",
+    url: "https://github.com/intakhabsheikh786/covid_19_tracker",
   },
 ];
 
-const InfoScreen = (props) => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.upper}>
-        <Header />
-        <Text style={styles.upper_view_text_1}>About</Text>
-      </View>
+class InfoScreen extends Component {
+  state = {
+    loading: true,
+  };
 
-      {abouts.map((about) => {
-        return (
-          <AboutView
-            key={about.about}
-            header={about.about}
-            content={about.content}
-            url={about.url}
-          />
-        );
-      })}
+  componentDidMount() {
+    this.setState({ loading: false });
+  }
+  render() {
+    const { loading } = this.state;
+    return (
+      <View style={styles.container}>
+        <View style={styles.upper}>
+          <Header drawer_navigation={this.props.drawer_navigation} />
+          <Text style={styles.upper_view_text_1}>About</Text>
+        </View>
+        {loading ? (
+          <Loading width={100} height={100} />
+        ) : (
+          <ScrollView>
+            {abouts.map((about) => {
+              return (
+                <AboutView
+                  key={about.about}
+                  header={about.about}
+                  content={about.content}
+                  url={about.url}
+                />
+              );
+            })}
 
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-end",
-          alignItems: "center",
-          padding: 10,
-        }}
-      >
-        <Text
-          onPress={() =>
-            Linking.openURL("https://github.com/intakhabsheikh786")
-          }
-          style={{ fontSize: 15, color: "grey" }}
-        >
-          https://github.com/intakhabsheikh786
-        </Text>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "flex-end",
+                alignItems: "center",
+                padding: 10,
+                paddingTop: 100,
+              }}
+            >
+              <Text
+                onPress={() =>
+                  Linking.openURL("https://github.com/intakhabsheikh786")
+                }
+                style={{ fontSize: 15, color: "grey" }}
+              >
+                https://github.com/intakhabsheikh786
+              </Text>
+            </View>
+          </ScrollView>
+        )}
       </View>
-    </View>
-  );
-};
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {

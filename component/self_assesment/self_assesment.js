@@ -78,7 +78,12 @@ export default class SelfAssesment extends React.Component {
     }));
   };
 
-  calculateRisk = () => {};
+  calculateRisk = () => {
+    this.appendMessage({
+      _id: new Date().getTime(),
+      text: "This feature is pending..... please try again after some time",
+    });
+  };
 
   isLastMessage = (current_question_number) => {
     if (typeof current_question_number == "number") {

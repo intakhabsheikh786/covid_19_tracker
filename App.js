@@ -58,6 +58,12 @@ const StactNavigator = ({ navigation }) => {
   const NewsComponent = (props) => (
     <NewsScreen {...props} drawer_navigation={navigation} />
   );
+  const StatisticComponent = (props) => (
+    <StatisticScreen {...props} drawer_navigation={navigation} />
+  );
+  const InfoComponent = (props) => (
+    <InfoScreen {...props} drawer_navigation={navigation} />
+  );
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -66,9 +72,9 @@ const StactNavigator = ({ navigation }) => {
       tabBarOptions={{ showLabel: false }}
     >
       <Tab.Screen name="Home" component={HomeComponent} />
-      <Tab.Screen name="Statistic" component={StatisticScreen} />
+      <Tab.Screen name="Statistic" component={StatisticComponent} />
       <Tab.Screen name="News" component={NewsComponent} />
-      <Tab.Screen name="Info" component={InfoScreen} />
+      <Tab.Screen name="Info" component={InfoComponent} />
     </Tab.Navigator>
   );
 };

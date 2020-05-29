@@ -53,7 +53,7 @@ const Article = ({ article }) => {
 class NewsScreen extends Component {
   state = {
     articles: "",
-    loading: false,
+    loading: true,
     refreshing: false,
     to: 5,
   };
@@ -73,6 +73,10 @@ class NewsScreen extends Component {
     this.setState({ loading: true });
     const news = await this.getNews();
     this.setState({ articles: news.articles.slice(0, 5) });
+    // setTimeout(() => {
+    //   this.setState({ loading: false });
+    // }, 5000);
+
     this.setState({ loading: false });
   }
 
@@ -85,22 +89,27 @@ class NewsScreen extends Component {
 
   render() {
     const { loading, articles, to } = this.state;
-    if (loading) return <Loading />;
+
     return (
       <View style={styles.container}>
         <View style={styles.upper}>
           <Header drawer_navigation={this.props.drawer_navigation} />
           <Text style={styles.upper_view_text_1}>News</Text>
         </View>
+
         <View style={styles.lower}>
-          <FlatList
-            data={articles}
-            renderItem={({ item }) => <Article article={item} />}
-            keyExtractor={(item) => item.publishedAt}
-            initialNumToRender={5}
-            onEndReachedThreshold={10}
-            onEndReached={() => this.handleLoadMore(to)}
-          />
+          {loading ? (
+            <Loading width={100} height={100} />
+          ) : (
+            <FlatList
+              data={articles}
+              renderItem={({ item }) => <Article article={item} />}
+              keyExtractor={(item) => item.publishedAt}
+              initialNumToRender={5}
+              onEndReachedThreshold={10}
+              onEndReached={() => this.handleLoadMore(to)}
+            />
+          )}
         </View>
       </View>
     );

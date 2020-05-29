@@ -1,3 +1,5 @@
+import { Platform, Linking } from "react-native";
+
 const getCovid19DataSummary = async () => {
   try {
     let response = await fetch("https://api.covid19api.com/summary");
@@ -46,4 +48,11 @@ export const getCurrentDateCountryData = async (selected_item) => {
   } catch (error) {
     return { err: "Server error" };
   }
+};
+
+export const getOsName = () => Platform.OS;
+
+export const callToPhone = async (phone) => {
+  phone = getOsName() !== "android" ? `telprompt:${phone}` : `tel:${phone}`;
+  Linking.openURL(phone);
 };

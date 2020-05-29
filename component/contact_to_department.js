@@ -1,9 +1,29 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Linking } from "react-native";
 import { CustomButton } from "../common/buttons";
 import { colors } from "../styles/style";
 import DropDown from "../common/dropdown";
 import { country_list as DATA } from "../common/data";
+import { phones } from "../common/phone";
+import { callToPhone } from "../utils/functions";
+
+let phone;
+
+const handleSelect = (selected_item) => {
+  const country = phones.find(
+    (phone) => phone.country.toLowerCase() === selected_item.toLowerCase()
+  );
+  phone = country.phone;
+};
+
+const handlePhoneClick = async () => {
+  if (phone) return await callToPhone(phone);
+  return alert("Sorry, we don't have a number for selected country");
+};
+
+const handleSmsClick = () => {
+  alert(`Sorry, There is no number for sms`);
+};
 
 const Upper = () => {
   return (
@@ -21,7 +41,11 @@ const Upper = () => {
         </Text>
       </View>
       <View>
-        <DropDown data={DATA} selected_item={"Choose country"} />
+        <DropDown
+          data={DATA}
+          selected_item={"Choose country"}
+          handleSelect={handleSelect}
+        />
       </View>
     </View>
   );
@@ -35,7 +59,12 @@ const Middle = () => {
         If you feel seek with any kind of covid19 symptoms then immideately call
         or send messsag.
       </Text>
-      <Text style={styles.middle_view_text_3}>See symptoms</Text>
+      <Text
+        onPress={() => Linking.openURL("https://www.mohfw.gov.in/pdf/FAQ.pdf")}
+        style={styles.middle_view_text_3}
+      >
+        See symptoms
+      </Text>
     </View>
   );
 };
@@ -47,11 +76,13 @@ const Lower = () => {
         name={"Call Now"}
         icon={"md-call"}
         type={colors.button_primary}
+        handleClick={handlePhoneClick}
       />
       <CustomButton
         name={"Send SMS"}
         icon={"md-chatboxes"}
         type={colors.button_secondary}
+        handleClick={handleSmsClick}
       />
     </View>
   );

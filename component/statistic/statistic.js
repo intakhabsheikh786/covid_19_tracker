@@ -80,7 +80,7 @@ class Statistic extends Component {
           hidden={false}
         ></StatusBar>
         <View style={styles.upper}>
-          <Header />
+          <Header drawer_navigation={this.props.drawer_navigation} />
           <DropDownView
             date={date}
             handleSelect={this.handleSelect}
